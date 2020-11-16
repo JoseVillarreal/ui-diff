@@ -4,13 +4,10 @@ const pixelmatch = require('pixelmatch');
 const fs = require('fs');
 
 async function screenshot(url, options) {
+    console.log('screenshot options:', options);
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.setViewport({
-        width: options.viewport_width,
-        height: options.viewport_height,
-        deviceScaleFactor: 1,
-    })
+    await page.setViewport(options);
     await page.goto(url);
     console.log("writing file to ", options.saveLocation, options)
     let image = await page.screenshot({path: options.saveLocation});

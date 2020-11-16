@@ -9,8 +9,9 @@ const ui_tools = require('./ui-library.js');
     let a = process.argv[3];
     let b = process.argv[4];
     let options = {};
-    options.viewport_width = process.argv[5] || 1920;
-    options.viewport_height = process.argv[6] || 1080;
+    options.width = process.argv[5] || 1920;
+    options.height = process.argv[6] || 1080;
+    options.deviceScaleFactor = 1;
 
     if (!fs.existsSync(`./results/${project_name}`)){
         fs.mkdirSync(`./results/${project_name}`);
