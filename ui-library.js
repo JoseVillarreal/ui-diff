@@ -1,8 +1,9 @@
 const puppeteer = require('puppeteer');
 const PNG = require('pngjs');
 const pixelmatch = require('pixelmatch');
+const fs = require('fs');
 
-const screenshot = (url, options) => {
+async function screenshot(url, options) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({
@@ -11,20 +12,23 @@ const screenshot = (url, options) => {
         deviceScaleFactor: 1,
     })
     await page.goto(url);
-    await page.screenshot({path: options.saveLocation});
+    console.log("writing file to ", options.saveLocation, options)
+    let image = await page.screenshot({path: options.saveLocation});
+    return image;
 };
 
-const imageDiff = (imageASrc, imageBSrc, diffFilePath, options) => {
-    const imageA = PNG.sync.read(fs.readFileSync(imageASrc))
-    const imageB = PNG.sync.read(fs.readFileSync(imageBSrc))
-    const diff = new PNG({options.viewport_width, options.viewport_height});
+function imageDiff (imageASrc, imageBSrc, diffFilePath) {
+    const imageA = imageASrc;
+    const imageB = imageBSrc;
+    const {width, height} = imageA;
+    const diff = new PNG({width, height});
 
-    pixelmatch(imageA.data, imageB.data, diff.data, viewport_width, viewport_height, {threshold: 0.1});
+    pixelmatch(imageA, imageB, diff.data, width, height, {threshold: 0.1});
 
     fs.writeFileSync(diffFilePath, PNG.sync.write(diff));
-}
+};
 
-return {
+module.exports = {
     screenshot: screenshot,
     imageDiff: imageDiff,
 }

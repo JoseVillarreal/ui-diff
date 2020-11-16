@@ -1,5 +1,5 @@
 const fs = require('fs');
-const ui_tools = require('./ui-diff.js');
+const ui_tools = require('./ui-library.js');
 // Instructions:
 // run: node ui-diff.js <project_name> <live_url> <test_url> <width> <height>
 // takes screenshots of both urls, and stores them in the results directory
@@ -16,9 +16,10 @@ const ui_tools = require('./ui-diff.js');
         fs.mkdirSync(`./results/${project_name}`);
     }
 
-    ui_tools.screenshot(a, { saveLocation: `./results/${project_name}/a.png`, ...options });
-    ui_tools.screenshot(b, { saveLocation: `./results/${project_name}/b.png`, ...options });
-    
-    ui_tools.imageDiff(`./results/${project_name}/a.png`, `./results/${project_name}/b.png`, `./results/${project_name}/diff.png`, ...options);
+    console.log(ui_tools);
+    imageA = await ui_tools.screenshot(a, { saveLocation: `./results/${project_name}/a.png`, ...options });
+    imageB = await ui_tools.screenshot(b, { saveLocation: `./results/${project_name}/b.png`, ...options });
+    console.log('image data:', imageA, imageB);
+    ui_tools.imageDiff(imageA, imageB, `./results/${project_name}/diff.png`);
 
 })();
