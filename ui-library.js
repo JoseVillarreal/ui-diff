@@ -2,22 +2,22 @@ const puppeteer = require('puppeteer');
 const PNG = require('pngjs');
 const pixelmatch = require('pixelmatch');
 
-const screenshot = (url, saveLocation) => {
+const screenshot = (url, options) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({
-        width: viewport_width,
-        height: viewport_height,
+        width: options.viewport_width,
+        height: options.viewport_height,
         deviceScaleFactor: 1,
     })
     await page.goto(url);
-    await page.screenshot({path: saveLocation});
+    await page.screenshot({path: options.saveLocation});
 };
 
-const imageDiff = (imageASrc, imageBSrc, diffFilePath) => {
+const imageDiff = (imageASrc, imageBSrc, diffFilePath, options) => {
     const imageA = PNG.sync.read(fs.readFileSync(imageASrc))
     const imageB = PNG.sync.read(fs.readFileSync(imageBSrc))
-    const diff = new PNG({viewport_width, viewport_height});
+    const diff = new PNG({options.viewport_width, options.viewport_height});
 
     pixelmatch(imageA.data, imageB.data, diff.data, viewport_width, viewport_height, {threshold: 0.1});
 
