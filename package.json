@@ -1,0 +1,16 @@
+{
+  "name": "ui-diff",
+  "version": "1.0.0",
+  "description": "compare the UI across two different domains, mainly for migration visual comparison",
+  "main": "ui-diff.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Jose Villarreal",
+  "license": "ISC",
+  "dependencies": {
+    "pixelmatch": "^5.2.1",
+    "pngjs": "^6.0.0",
+    "puppeteer": "^5.4.1"
+  }
+}
